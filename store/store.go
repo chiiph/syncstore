@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"syncstore/perspective"
 
+	"crypto/sha256"
+
 	"github.com/pkg/errors"
 )
 
@@ -78,7 +80,8 @@ func (s *storeImpl) PutWithVersion(key string, version int, data []byte) error {
 		return errors.WithStack(err)
 	}
 
-	err = s.p.Update(key, version)
+	h := sha256.Sum256(data)
+	err = s.p.Update(key, version, h[:])
 	if err != nil {
 		return errors.WithStack(err)
 	}
@@ -116,6 +119,7 @@ func (s *storeImpl) Get(key string) ([]byte, error) {
 }
 
 func (s *storeImpl) Del(key string) error {
+	// Delete should be a Put with a "deleted cask" content, to catch conflicts between removals and updates
 	panic("Not implemented")
 }
 

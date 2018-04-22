@@ -8,10 +8,10 @@ import (
 
 func TestBasic(t *testing.T) {
 	p := New()
-	require.NoError(t, p.Update("obj1", 1))
-	require.NoError(t, p.Update("obj1", 2))
-	require.Error(t, p.Update("obj1", 0))
-	require.Error(t, p.Update("obj1", -1))
+	require.NoError(t, p.Update("obj1", 1, nil))
+	require.NoError(t, p.Update("obj1", 2, nil))
+	require.Error(t, p.Update("obj1", 0, nil))
+	require.Error(t, p.Update("obj1", -1, nil))
 
 	v, e := p.Version("obj1")
 	require.NoError(t, e)
